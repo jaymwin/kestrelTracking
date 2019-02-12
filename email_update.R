@@ -1,7 +1,7 @@
 
 library(gmailr)
 
-time_in_seconds <- 10*60
+time_in_seconds <- 5*60
 
 Sys.sleep(time_in_seconds) # add delay here to allow time to upload the new map to my github site
 
