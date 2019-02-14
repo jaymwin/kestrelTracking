@@ -25,3 +25,6 @@ Jay")
 
 # create_draft(msg) - to make a draft first
 send_message(msg)
+
+
+install.packages('curl')
