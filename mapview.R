@@ -22,7 +22,7 @@ sf_locs <- sf::st_as_sf(locs, coords = c("Longitude","Latitude")) %>%
 sf_lines <- sf_locs %>% 
   dplyr::arrange(TagID, Date) %>% 
   dplyr::group_by(TagID) %>% 
-  #dplyr::summarise(do_union = FALSE) %>% 
+  dplyr::summarise(do_union = FALSE) %>% 
   sf::st_cast("MULTILINESTRING")
 
 # create points
