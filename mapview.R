@@ -14,6 +14,10 @@ locs <- read_csv(paste0(here('output_data'), '/', output_data_directory[last_fil
 locs <- locs %>%
   mutate(TagID = str_sub(TagID, start = 4, end = 6)) 
 
+# right now, filter to 2019 birds to clean up map
+locs <- locs %>%
+  filter(Date > '2019-01-01')
+
 # convert to sf object
 sf_locs <- sf::st_as_sf(locs, coords = c("Longitude","Latitude")) %>% 
   sf::st_set_crs(4326)
