@@ -1,5 +1,7 @@
 
 library(gmailr)
+devtools::install_github("tidyverse/glue")
+library(tidyverse)
 
 time_in_seconds <- 3*60
 
@@ -13,12 +15,14 @@ ccList <- c("anjolenehunt@boisestate.edu",
             "jessewatson@boisestate.edu", 
             "fcphenology@boisestate.edu")
 
+glue::glue()
+
 ## let others know that the new map is ready to view
 msg = mime() %>%
   from(me) %>%
   to(PI) %>%
   cc(ccList) %>%
-  subject(paste0("New kestrel tracks - ", Sys.Date())) %>%
+  subject(str_c("New kestrel tracks - ", Sys.Date())) %>%
   text_body("Hi,
 
 Here's an updated map of our tagged kestrels:
