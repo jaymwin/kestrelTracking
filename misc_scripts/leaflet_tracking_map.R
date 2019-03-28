@@ -11,7 +11,7 @@ library(htmlwidgets)
 #library(colorRamps)
 
 here <- here::here
-source('source/make_lines.R') # create lines connecting sequential GPS fixes
+source(here('misc_scripts/make_lines.R')) # create lines connecting sequential GPS fixes
 
 
 # Read in the data --------------------------------------------------------
