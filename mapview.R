@@ -53,10 +53,4 @@ map2 <- sf_points %>%
 combinedMap <- map1 + map2
 
 # save as html
-mapshot(combinedMap %>%
-          addLogo(here('logobanner29.png'),
-                  position = "bottomleft",
-                  offset.x = 5,
-                  offset.y = 40,
-                  width = 498,
-                  height = 126.5), url = here("tracking_map.html"))
+mapshot(combinedMap, url = here("tracking_map.html"))
