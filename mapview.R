@@ -43,6 +43,7 @@ map1 <- sf_lines %>%
     zcol = "TagID", burst = TRUE, legend = FALSE, homebutton = FALSE
     )
 
+# point map
 map2 <- sf_points %>% 
   mapview(
     map.types = c("CartoDB.Positron", "Esri.WorldImagery", "Stamen.Terrain", "OpenStreetMap.Mapnik"),
