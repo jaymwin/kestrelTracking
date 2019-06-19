@@ -4,8 +4,9 @@
 library(tidyverse)
 library(lubridate)
 library(here)
+library(vroom)
+library(fs)
 
-here::here()
 
 # Read in the data --------------------------------------------------------
 
@@ -17,15 +18,14 @@ read_plus <- function(flnm) {
 }
 
 # Read each .csv file with tracking data
-tbl <-
-  list.files(path = here('converted_argos'),
-              pattern='*.csv', 
-              full.names = T) %>% 
+tbl <- dir_ls(path = here::here('converted_argos'),
+              glob = '*.csv') %>%
   map_df(~read_plus(.))
-#tbl
+tbl
 
 # Use stringr to pull out the tag code from the filename
 # Convert date to lubridate (YYYY-MM-DD) format
+
 # Select relevant variables
 tbl <- tbl %>%
   mutate(TagID = str_sub(Filename, start = -23, end = -18)) %>%
@@ -78,5 +78,5 @@ locs <- locs %>%
 appended_date <- Sys.Date()
 
 # Write to csv file by date more data was added
-write_csv(locs, str_c(here('output_data'), '/', 'amke_locations', '_', appended_date, '.csv'))
-
+#write_csv(locs, str_c(here('output_data'), '/', 'amke_locations', '_', appended_date, '.csv'))
+vroom_write(locs, str_c(here::here('output_data'), '/', 'amke_locations', '_', appended_date, '.csv'), delim = ",")

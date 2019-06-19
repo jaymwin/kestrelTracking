@@ -2,13 +2,14 @@
 library(tidyverse)
 library(sf)
 library(mapview)
+library(fs)
 
 # find the most recent file, which is last in the list due to sorting
-output_data_directory <- list.files(here('output_data'))
+output_data_directory <- dir_ls(here::here('output_data'))
 last_file_loc <- length(output_data_directory)
 
 # read in file
-locs <- read_csv(str_c(here('output_data'), '/', output_data_directory[last_file_loc]))
+locs <- read_csv(str_c(here::here('output_data'), '/', output_data_directory[last_file_loc]))
 
 # change Argos code to 3 digit ID to make leaflet plotting cleaner
 locs <- locs %>%
@@ -54,4 +55,4 @@ map2 <- sf_points %>%
 combinedMap <- map1 + map2
 
 # save as html
-mapshot(combinedMap, url = here("tracking_map.html"))
+mapshot(combinedMap, url = here::here("tracking_map.html"))
