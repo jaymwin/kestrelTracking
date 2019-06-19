@@ -78,5 +78,4 @@ locs <- locs %>%
 appended_date <- Sys.Date()
 
 # Write to csv file by date more data was added
-#write_csv(locs, str_c(here('output_data'), '/', 'amke_locations', '_', appended_date, '.csv'))
 vroom_write(locs, str_c(here::here('output_data'), '/', 'amke_locations', '_', appended_date, '.csv'), delim = ",")

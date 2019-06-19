@@ -8,8 +8,10 @@ library(fs)
 output_data_directory <- dir_ls(here::here('output_data'))
 last_file_loc <- length(output_data_directory)
 
+output_data_directory[last_file_loc]
+
 # read in file
-locs <- read_csv(str_c(here::here('output_data'), '/', output_data_directory[last_file_loc]))
+locs <- read_csv(output_data_directory[last_file_loc])
 
 # change Argos code to 3 digit ID to make leaflet plotting cleaner
 locs <- locs %>%
