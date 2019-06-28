@@ -4,31 +4,22 @@
 library(tidyverse)
 library(lubridate)
 library(here)
-library(vroom)
 library(fs)
+library(vroom)
 
 
 # Read in the data --------------------------------------------------------
 
-# Read the file and create a column of the file's name;
-# this provides a column to group points by TagID or code
-read_plus <- function(flnm) {
-  read_csv(flnm) %>% 
-    mutate(Filename = flnm)
-}
+# find all the csv files
+paths <- dir_ls(here::here('converted_argos'), 
+                glob = '*csv')
 
-# Read each .csv file with tracking data
-tbl <- dir_ls(path = here::here('converted_argos'),
-              glob = '*.csv') %>%
-  map_df(~read_plus(.))
-tbl
-
-# Use stringr to pull out the tag code from the filename
-# Convert date to lubridate (YYYY-MM-DD) format
+# read and combine
+tbl <- map_dfr(paths, read_csv, .id = 'path')
 
 # Select relevant variables
 tbl <- tbl %>%
-  mutate(TagID = str_sub(Filename, start = -23, end = -18)) %>%
+  mutate(TagID = str_sub(path, start = -23, end = -18)) %>%
   mutate(Date = dmy(Date)) %>%
   select(TagID, CRC, Date, Time, Latitude, Longitude, Fix) %>%
   arrange(TagID, Date) %>%
