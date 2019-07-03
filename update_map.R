@@ -1,7 +1,9 @@
 
 library(here)
-library(purrr)
+library(tidyverse)
 
 files <- c('combine_csv_files.R', 'mapview.R', 'plot_timeline.R')
 
-map(files, source)
+# run scripts
+files %>%
+  map(., source)
