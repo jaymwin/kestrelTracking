@@ -8,3 +8,5 @@ locs %>%
   geom_point(pch = '|', size = 5) +
   theme(legend.position = 'none') +
   scale_color_manual(values = lacroix_palette("PassionFruit", n = 9, type = "continuous"))
+
+ggsave(here::here('timeline.png'), width = 5, height = 3, units = 'in')
