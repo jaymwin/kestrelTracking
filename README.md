@@ -1,5 +1,5 @@
 # kestrelTracking
-Repository to store and view kestrel migration tracking data from Lotek PinPoint Argos-GPS tags for Full Cycle Phenology Project
+Repository to store and view kestrel migration tracking data from Lotek PinPoint Argos-GPS tags for Full Cycle Phenology Project (tracking map here: https://jaymwin.github.io/tracking_map.html)
 
 ### Instructions
 
