@@ -3,7 +3,7 @@ Repository to store and view kestrel migration tracking data from Lotek PinPoint
 
 ### Instructions
 
-1. Download Argos data from their website (https://argos-system.clsamerica.com/argos-cwi2/login.html) about once per week (Username = AMERKESTREL, Password = BOISESTATE).
+1. Download Argos data from their website (https://argos-system.clsamerica.com/argos-cwi2/login.html) about once per week.
 1. Click `Data` > `Download COM/PRV/DIAG` and make sure `Type` is set to PRV/A DS. Click `Download` to get a DSA file with locations.
 1. Name DSA file by date with underscores (e.g., DSA_2019_03_10.txt) and save in `raw_argos` folder.
 1. Open Lotek GPS parsing software, load DSA file as input, and export GPS+Argos csv file(s). Save csvs to `converted_argos` folder.
