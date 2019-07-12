@@ -59,9 +59,6 @@ locs <- locs %>%
   mutate(Sequence = sequence(rle(.$TagID)$lengths))
 locs
 
-locs <- locs %>%
-  filter(Date > '2019-01-01' & Longitude > -150 & Longitude < -50)
-
 # Check - how many locations and tags are there?
 #table(locs$TagID)
 #locs %>% print.data.frame()
