@@ -19,7 +19,7 @@ locs <- locs %>%
 
 # right now, filter to 2019 birds to clean up map
 locs <- locs %>%
-  filter(Date > '2019-01-01' & Longitude > -150 & Longitude < -50)
+  filter(Date > '2019-01-01' & Longitude > -150 & Longitude < -50 & Date < '2019-12-15')
 
 # convert to sf object
 sf_locs <- sf::st_as_sf(locs, coords = c("Longitude","Latitude")) %>% 
