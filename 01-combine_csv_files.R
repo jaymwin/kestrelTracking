@@ -6,16 +6,18 @@ library(lubridate)
 library(here)
 library(fs)
 library(vroom)
+library(furrr)
+plan(multicore)
 
 
 # Read in the data --------------------------------------------------------
 
 # find all the csv files
-paths <- dir_ls(here::here('converted_argos'), 
-                glob = '*csv')
+csv_list <- dir_ls(here::here('converted_argos'), 
+                   glob = '*csv')
 
 # read and combine
-tbl <- map_dfr(paths, read_csv, .id = 'path')
+tbl <- future_map_dfr(csv_list, readr::read_csv, .id = 'path')
 
 # Select relevant variables
 tbl <- tbl %>%
