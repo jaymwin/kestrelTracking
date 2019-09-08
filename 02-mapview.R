@@ -13,27 +13,27 @@ locs <- read_csv(output_data_directory[last_file_loc])
 
 # change Argos code to 3 digit ID to make leaflet plotting cleaner
 locs <- locs %>%
-  mutate(TagID = str_sub(TagID, start = 4, end = 6)) 
+  mutate(tag_id = str_sub(tag_id, start = 4, end = 6)) 
 
 # right now, filter to 2019 birds to clean up map
 locs <- locs %>%
-  filter(Date > '2019-01-01' & Longitude > -150 & Longitude < -50 & Date < '2019-12-15')
+  filter(date > '2019-01-01' & longitude > -150 & longitude < -50 & date < '2019-12-15')
 
 # convert to sf object
-sf_locs <- sf::st_as_sf(locs, coords = c("Longitude","Latitude")) %>% 
+sf_locs <- sf::st_as_sf(locs, coords = c("longitude","latitude")) %>% 
   sf::st_set_crs(4326)
 
 # create lines
 sf_lines <- sf_locs %>% 
-  dplyr::arrange(TagID, Date) %>% 
-  dplyr::group_by(TagID) %>% 
+  dplyr::arrange(tag_id, date) %>% 
+  dplyr::group_by(tag_id) %>% 
   dplyr::summarise(do_union = FALSE) %>% 
   sf::st_cast("MULTILINESTRING")
 
 # create points
 sf_points <- sf_locs %>% 
-  dplyr::arrange(TagID, Date) %>% 
-  dplyr::group_by(TagID) %>% 
+  dplyr::arrange(tag_id, date) %>% 
+  dplyr::group_by(tag_id) %>% 
   #dplyr::summarise(do_union = FALSE) %>% 
   sf::st_cast("MULTIPOINT")
 
@@ -41,14 +41,14 @@ sf_points <- sf_locs %>%
 map1 <- sf_lines %>% 
   mapview(
     map.types = c("CartoDB.Positron", "Esri.WorldImagery", "Stamen.Terrain", "OpenStreetMap.Mapnik"),
-    zcol = "TagID", burst = TRUE, legend = FALSE, homebutton = FALSE
+    zcol = "tag_id", burst = TRUE, legend = FALSE, homebutton = FALSE
     )
 
 # point map
 map2 <- sf_points %>% 
   mapview(
     map.types = c("CartoDB.Positron", "Esri.WorldImagery", "Stamen.Terrain", "OpenStreetMap.Mapnik"),
-    zcol = "TagID", burst = TRUE, legend = FALSE, homebutton = FALSE
+    zcol = "tag_id", burst = TRUE, legend = FALSE, homebutton = FALSE
   )
 
 # combine together

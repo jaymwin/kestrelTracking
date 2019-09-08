@@ -1,4 +1,4 @@
-TagID,Date,Time,Latitude,Longitude,Fix,Sequence
+tag_id,date,time,latitude,longitude,fix,sequence
 174019,2018-06-20,17:59:28,56.9081459,-117.5445862,3D GPS,1
 174019,2018-06-22,17:59:28,56.90802,-117.5436935,3D GPS,2
 174019,2018-06-24,17:59:28,56.9080429,-117.5441055,3D GPS,3

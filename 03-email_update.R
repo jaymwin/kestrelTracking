@@ -9,7 +9,7 @@ me <- "jasonwiniarski@u.boisestate.edu"
 
 PI <- "julieheath@boisestate.edu"
 
-ccList <- c("anjolenehunt@boisestate.edu", 
+cc_list <- c("anjolenehunt@boisestate.edu", 
             "jessewatson@boisestate.edu", 
             "fcphenology@boisestate.edu")
 
@@ -17,7 +17,7 @@ ccList <- c("anjolenehunt@boisestate.edu",
 msg = mime() %>%
   from(me) %>%
   to(PI) %>%
-  cc(ccList) %>%
+  cc(cc_list) %>%
   subject(str_c("New kestrel tracks - ", Sys.Date())) %>%
   text_body("Hi,
 

@@ -2,11 +2,8 @@
 # Load the libraries ------------------------------------------------------
 
 library(pacman) # for loading packages
-p_load(tidyverse, lubridate, here, fs, vroom, furrr)
+p_load(tidyverse, lubridate, here, fs, vroom, furrr, janitor)
 plan(multicore) # for furrr function
-
-library(sf)
-library(mapview)
 
 
 # Read in the data --------------------------------------------------------
@@ -18,46 +15,49 @@ csv_list <- dir_ls(here::here('converted_argos'),
 # read and combine
 tbl <- future_map_dfr(csv_list, readr::read_csv, .id = 'path')
 
+# clean names
+tbl <- tbl %>% clean_names()
+
 # Select relevant variables
 tbl <- tbl %>%
-  mutate(TagID = str_sub(path, start = -23, end = -18)) %>%
-  mutate(Date = dmy(Date)) %>%
-  select(TagID, CRC, Date, Time, Latitude, Longitude, Fix) %>%
-  arrange(TagID, Date) %>%
+  mutate(tag_id = str_sub(path, start = -23, end = -18)) %>%
+  mutate(date = dmy(date)) %>%
+  select(tag_id, crc, date, time, latitude, longitude, fix) %>%
+  arrange(tag_id, date) %>%
   distinct()
 #tbl %>% print(n=Inf)
 
 # Filter out bad points here and duplicates
 locs <- tbl %>% 
-  filter(CRC !="Fail") %>%
-  filter(Fix %in% c("3D", "2D", "A1", "A2", "A3")) %>% # select GPS locations and higher quality Argos location classes
-  select(-CRC) %>% # this allows you remove duplicates labeled with different CRCs (OK, OK(corrected))
+  filter(crc !="Fail") %>%
+  filter(fix %in% c("3D", "2D", "A1", "A2", "A3")) %>% # select GPS locations and higher quality Argos location classes
+  select(-crc) %>% # this allows you remove duplicates labeled with different CRCs (OK, OK(corrected))
   distinct() 
 #locs
 
 # Rename fix type
 locs <- locs %>%
   mutate(type = case_when(
-    Fix %in% c("3D", "2D") ~ "GPS",
-    Fix %in% c('A1', 'A2', 'A3') ~ 'Argos')) %>%
-  mutate(Fix = str_c(Fix, type, sep = ' ')) %>%
+    fix %in% c("3D", "2D") ~ "GPS",
+    fix %in% c('A1', 'A2', 'A3') ~ 'Argos')) %>%
+  mutate(fix = str_c(fix, type, sep = ' ')) %>%
   select(-type)
 #locs 
 
 # Sort it and create fix # by TagID and date
 locs <- locs %>%
-  arrange(TagID, Date) %>%
-  mutate(Sequence = sequence(rle(.$TagID)$lengths))
+  arrange(tag_id, date) %>%
+  mutate(sequence = sequence(rle(.$tag_id)$lengths))
 #locs
 
 # need to figure out a better way to deal with these bad locations:
 locs <- locs %>%
-  filter(Sequence != 52)
+  filter(sequence != 52)
 
 # Sort it and create fix # by TagID and date
 locs <- locs %>%
-  arrange(TagID, Date) %>%
-  mutate(Sequence = sequence(rle(.$TagID)$lengths))
+  arrange(tag_id, date) %>%
+  mutate(sequence = sequence(rle(.$tag_id)$lengths))
 locs
 
 # Check - how many locations and tags are there?

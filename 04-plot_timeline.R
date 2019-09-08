@@ -3,8 +3,8 @@ theme_set(theme_minimal())
 library(LaCroixColoR)
 
 locs %>%
-  filter(Date > '2019-06-01' & Date < '2019-12-15') %>%
-  ggplot(., aes(Date, TagID, color = TagID)) +
+  filter(date > '2019-06-01' & date < '2019-12-15') %>%
+  ggplot(., aes(date, tag_id, color = tag_id)) +
   geom_point(pch = '|', size = 5) +
   theme(legend.position = 'none') +
   scale_color_manual(values = lacroix_palette("PassionFruit", n = 9, type = "continuous"))
