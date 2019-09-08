@@ -1,13 +1,12 @@
 
 # Load the libraries ------------------------------------------------------
 
-library(tidyverse)
-library(lubridate)
-library(here)
-library(fs)
-library(vroom)
-library(furrr)
-plan(multicore)
+library(pacman) # for loading packages
+p_load(tidyverse, lubridate, here, fs, vroom, furrr)
+plan(multicore) # for furrr function
+
+library(sf)
+library(mapview)
 
 
 # Read in the data --------------------------------------------------------

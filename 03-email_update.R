@@ -1,7 +1,5 @@
 
 library(gmailr)
-devtools::install_github("tidyverse/glue")
-library(tidyverse)
 
 time_in_seconds <- 3*60
 
@@ -14,8 +12,6 @@ PI <- "julieheath@boisestate.edu"
 ccList <- c("anjolenehunt@boisestate.edu", 
             "jessewatson@boisestate.edu", 
             "fcphenology@boisestate.edu")
-
-glue::glue()
 
 ## let others know that the new map is ready to view
 msg = mime() %>%

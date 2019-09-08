@@ -1,8 +1,6 @@
 
-library(tidyverse)
 library(sf)
 library(mapview)
-library(fs)
 
 # find the most recent file, which is last in the list due to sorting
 output_data_directory <- dir_ls(here::here('output_data'))
