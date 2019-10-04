@@ -19,6 +19,10 @@ locs <- locs %>%
 locs <- locs %>%
   filter(longitude > -150 & longitude < -50 & date < '2019-12-15')
 
+# remove microwave data
+locs <- locs %>%
+  filter(tag_id != '521' & tag_id != '522')
+
 # convert to sf object
 sf_locs <- sf::st_as_sf(locs, coords = c("longitude","latitude")) %>% 
   sf::st_set_crs(4326)
