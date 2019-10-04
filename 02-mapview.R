@@ -23,8 +23,11 @@ locs <- locs %>%
 locs <- locs %>%
   filter(tag_id != '521' & tag_id != '522')
 
+mapview_locs <- locs %>%
+  filter(date > '2019-05-01')
+
 # convert to sf object
-sf_locs <- sf::st_as_sf(locs, coords = c("longitude","latitude")) %>% 
+sf_locs <- sf::st_as_sf(mapview_locs, coords = c("longitude","latitude")) %>% 
   sf::st_set_crs(4326)
 
 # create lines
