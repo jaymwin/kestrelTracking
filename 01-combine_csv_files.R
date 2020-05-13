@@ -9,8 +9,10 @@ plan(multicore) # for furrr function
 # Read in the data --------------------------------------------------------
 
 # find all the csv files
-csv_list <- dir_ls(here::here('converted_argos'), 
-                   glob = '*csv')
+csv_list <- dir_ls(
+  here::here('converted_argos'), 
+  glob = '*csv')
+csv_list
 
 # read and combine
 tbl <- future_map_dfr(csv_list, readr::read_csv, .id = 'path')
@@ -25,7 +27,7 @@ tbl <- tbl %>%
   select(tag_id, crc, date, time, latitude, longitude, fix) %>%
   arrange(tag_id, date) %>%
   distinct()
-#tbl %>% print(n=Inf)
+tbl %>% print(n=Inf)
 
 # Filter out bad points here and duplicates
 locs <- tbl %>% 
@@ -33,7 +35,7 @@ locs <- tbl %>%
   filter(fix %in% c("3D", "2D", "A1", "A2", "A3")) %>% # select GPS locations and higher quality Argos location classes
   select(-crc) %>% # this allows you remove duplicates labeled with different CRCs (OK, OK(corrected))
   distinct() 
-#locs
+locs %>% print(n=Inf)
 
 # Rename fix type
 locs <- locs %>%
@@ -42,13 +44,13 @@ locs <- locs %>%
     fix %in% c('A1', 'A2', 'A3') ~ 'Argos')) %>%
   mutate(fix = str_c(fix, type, sep = ' ')) %>%
   select(-type)
-#locs 
+locs %>% print(n=Inf)
 
 # Sort it and create fix # by TagID and date
 locs <- locs %>%
   arrange(tag_id, date) %>%
   mutate(sequence = sequence(rle(.$tag_id)$lengths))
-#locs
+locs %>% print(n=Inf)
 
 # need to figure out a better way to deal with these bad locations:
 locs <- locs %>%
@@ -58,7 +60,7 @@ locs <- locs %>%
 locs <- locs %>%
   arrange(tag_id, date) %>%
   mutate(sequence = sequence(rle(.$tag_id)$lengths))
-locs
+locs %>% print(n=Inf)
 
 # Check - how many locations and tags are there?
 #table(locs$TagID)

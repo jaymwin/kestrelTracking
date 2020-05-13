@@ -10,24 +10,31 @@ output_data_directory[last_file_loc]
 
 # read in file
 locs <- read_csv(output_data_directory[last_file_loc])
+locs %>% print(n=Inf)
 
 # change Argos code to 3 digit ID to make leaflet plotting cleaner
 locs <- locs %>%
   mutate(tag_id = str_sub(tag_id, start = 4, end = 6)) 
 
 # right now, filter to 2019 birds to clean up map
-locs <- locs %>%
-  filter(longitude > -150 & longitude < -50 & date < '2019-12-15')
+# locs <- locs %>%
+#   filter(longitude > -150 & longitude < -50 & date < '2019-12-15')
 
 # remove microwave data
 locs <- locs %>%
   filter(tag_id != '521' & tag_id != '522')
+locs %>% print(n=Inf)
 
-mapview_locs <- locs %>%
-  filter(date > '2019-05-01')
+mapview_locs <- locs %>% mutate(tag_id = as.numeric(tag_id))
+
+# mapview_locs <- locs %>%
+#   filter(date > '2019-05-01')
+# mapview_locs %>% print(n=Inf)
 
 # convert to sf object
-sf_locs <- sf::st_as_sf(mapview_locs, coords = c("longitude","latitude")) %>% 
+sf_locs <- sf::st_as_sf(
+  mapview_locs, coords = c("longitude","latitude")
+  ) %>% 
   sf::st_set_crs(4326)
 
 # create lines
@@ -48,14 +55,20 @@ sf_points <- sf_locs %>%
 map1 <- sf_lines %>% 
   mapview(
     map.types = c("CartoDB.Positron", "Esri.WorldImagery", "Stamen.Terrain", "OpenStreetMap.Mapnik"),
-    zcol = "tag_id", burst = TRUE, legend = FALSE, homebutton = FALSE
+    #zcol = "tag_id", 
+    #burst = TRUE, 
+    legend = FALSE, 
+    homebutton = FALSE
     )
 
 # point map
-map2 <- sf_points %>% 
+map2 <- sf_points %>%
   mapview(
     map.types = c("CartoDB.Positron", "Esri.WorldImagery", "Stamen.Terrain", "OpenStreetMap.Mapnik"),
-    zcol = "tag_id", burst = TRUE, legend = FALSE, homebutton = FALSE
+    #zcol = "tag_id", 
+    #burst = TRUE, 
+    legend = FALSE, 
+    homebutton = FALSE
   )
 
 # combine together
