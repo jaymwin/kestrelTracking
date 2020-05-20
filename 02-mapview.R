@@ -15,6 +15,7 @@ locs %>% print(n=Inf)
 # change Argos code to 3 digit ID to make leaflet plotting cleaner
 locs <- locs %>%
   mutate(tag_id = str_sub(tag_id, start = 4, end = 6)) 
+locs
 
 # right now, filter to 2019 birds to clean up map
 # locs <- locs %>%
@@ -25,7 +26,7 @@ locs <- locs %>%
   filter(tag_id != '521' & tag_id != '522')
 locs %>% print(n=Inf)
 
-mapview_locs <- locs %>% mutate(tag_id = as.numeric(tag_id))
+mapview_locs <- locs 
 
 # mapview_locs <- locs %>%
 #   filter(date > '2019-05-01')
@@ -43,6 +44,7 @@ sf_lines <- sf_locs %>%
   dplyr::group_by(tag_id) %>% 
   dplyr::summarise(do_union = FALSE) %>% 
   sf::st_cast("MULTILINESTRING")
+str(sf_lines)
 
 # create points
 sf_points <- sf_locs %>% 
@@ -54,7 +56,12 @@ sf_points <- sf_locs %>%
 # line map
 map1 <- sf_lines %>% 
   mapview(
-    map.types = c("CartoDB.Positron", "Esri.WorldImagery", "Stamen.Terrain", "OpenStreetMap.Mapnik"),
+    map.types = c(
+      "CartoDB.Positron", 
+      "Esri.WorldImagery", 
+      "Stamen.Terrain", 
+      "OpenStreetMap.Mapnik"
+      ),
     #zcol = "tag_id", 
     #burst = TRUE, 
     legend = FALSE, 
@@ -73,6 +80,7 @@ map2 <- sf_points %>%
 
 # combine together
 combinedMap <- map1 + map2
+combinedMap
 
 # save as html
 mapshot(combinedMap, url = here::here("tracking_map.html"))

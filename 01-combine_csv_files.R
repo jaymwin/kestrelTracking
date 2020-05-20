@@ -53,8 +53,8 @@ locs <- locs %>%
 locs %>% print(n=Inf)
 
 # need to figure out a better way to deal with these bad locations:
-locs <- locs %>%
-  filter(sequence != 52)
+# locs <- locs %>%
+#   filter(sequence != 52)
 
 # Sort it and create fix # by TagID and date
 locs <- locs %>%
